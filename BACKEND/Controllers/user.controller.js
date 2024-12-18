@@ -1,0 +1,1 @@
+const userModel = requre('../models/user.model');
