@@ -30,15 +30,20 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+// The function below is not involved in any asynchronous operations like I/O, database queries, or network requests.
 userSchema.methods.generateAuthToken = function(){
     const token = jwt.sign({_id : this._id}, process.env.JWT_SECRET, {expiresIn : '24h'});
     return token;
 }
 
+// The function below is involved in some kind of 
+// asynchronous operations like I/O, database queries, or network requests.
 userSchema.methods.comparePassword = async function(password){
     return await bcrypt.compare(password, this.password);
 }
 
+// The function below is involved in some kind of 
+// asynchronous operations like I/O, database queries, or network requests.
 userSchema.statics.hashPassword = async function(password){
     return await bcrypt.hash(password, 10);
 }
