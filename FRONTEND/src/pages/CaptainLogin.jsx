@@ -21,7 +21,9 @@ const CaptainLogin = () => {
     <div className="p-7 h-screen flex flex-col justify-between">
       <div>
       <img className="h-8 mb-10" src={`${import.meta.env.VITE_IMAGE_PATH}`} alt="Cab"/>
-        <form onSubmit={submitter}>
+        <form onSubmit={(e)=>{
+          submitter(e);
+        }}>
           <h3 className="text-lg font-medium mb-2">Enter email</h3>
 
           <input
