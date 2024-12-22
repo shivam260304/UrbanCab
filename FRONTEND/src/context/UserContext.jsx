@@ -4,7 +4,8 @@ import { createContext, useState } from "react"
 export const userDataContext = createContext();
 
 
-const UserContext = ({children}) => {
+// eslint-disable-next-line react/prop-types
+const UserContext = ({ children }) => {
   const [user, setUser] = useState({
     email: '',
     fullname:{
@@ -21,4 +22,4 @@ const UserContext = ({children}) => {
   )
 }
 
-export default UserContext
+export default UserContext;
