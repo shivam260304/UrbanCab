@@ -1,18 +1,19 @@
 const userModel = require('../models/user.model');
 const captainModel = require('../models/captain.model');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const blackListModel = require('../models/blacklist.token');
 
 module.exports.authUser = async(req,res,next)=>{
     const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
     if(!token){
-        return res.status(401).json({error: 'Unauthorized'});
+        return res.status(401).json({error: 'Unauthorized1'});
     }                            
 
     // For LogOut puposes --> 
     const isBlacklisted = await blackListModel.findOne({token: token});
     if(isBlacklisted){
-        return res.status(401).json({error: 'Unauthorized'});
+        return res.status(401).json({error: 'Unauthorized2'});
     }
 
     // Profile visit purpose
@@ -22,7 +23,7 @@ module.exports.authUser = async(req,res,next)=>{
         req.user = user;
         return next();
     } catch(err){
-        return res.status(400).json({error: 'Unauthorized'});
+        return res.status(401).json({error: 'Unauthorized3'});
     }
 }
 

@@ -1,12 +1,9 @@
 import { createContext, useState } from "react"
 
+export const UserDataContext = createContext();
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const userDataContext = createContext();
-
-
-// eslint-disable-next-line react/prop-types
 const UserContext = ({ children }) => {
+  // Whatever data is received from the backend side, we need to store it here below -->
   const [user, setUser] = useState({
     email: '',
     fullname:{
@@ -16,9 +13,9 @@ const UserContext = ({ children }) => {
   });
   return (
     <div>
-      <userDataContext.Provider value={{user,setUser}}>
+      <UserDataContext.Provider value={{user,setUser}}>
       {children}
-      </userDataContext.Provider>
+      </UserDataContext.Provider>
     </div>
   )
 }
