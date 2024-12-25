@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+
 /* eslint-disable react/prop-types */ 
 import { createContext, useState, useContext } from "react";
 
