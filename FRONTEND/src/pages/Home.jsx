@@ -11,6 +11,7 @@ const Home = () => {
   const [destination, setDestination] = useState("");
   const [pannelOpen, setPannelOpen] = useState(false);
   const panelRef = useRef(null);
+  const [vehiclePannel, setVehiclePannel] = useState(false);
 
 
   const submitHandler = (e) =>{
@@ -33,7 +34,7 @@ const Home = () => {
   },[pannelOpen])
 
   return (
-    <div className="h-screen relative">
+    <div className="h-screen relative overflow-hidden">
       <img className='h-8 absolute left-5 top-5' src={`${import.meta.env.VITE_IMAGE_PATH}`} alt="Cab" />
       <div className="h-screen w-screen">
         {/* Image for temporary use */}
@@ -82,8 +83,43 @@ const Home = () => {
           </form>
         </div>
         <div ref={panelRef} className="h-0 bg-white">
-          <LocationSearchPannel/>
+          <LocationSearchPannel vehiclePannel ={vehiclePannel} setVehiclePannel={setVehiclePannel}/>
         </div>
+      </div>
+
+      <div className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-8 bg-white">
+        <h3 className="text-2xl font-semibold mb-5">Choose a vehicle</h3>
+
+        <div className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between">
+          <img className="h-12" src={`${import.meta.env.VITE_IMAGE_PATH_CAR}`} alt="" />
+          <div className="ml-2 w-1/2">
+            <h4 className="font-medium text-base">CabGo <span><i className="ri-user-3-fill"></i>4</span></h4>
+            <h5 className="font-medium text-sm">2 mins away</h5>
+            <p className="font-normal text-xs text-gray-600">Affordable, compact rides</p>
+          </div>
+          <h2 className="text-lg font-semibold">Rs 193</h2>
+        </div>
+
+        <div className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between">
+          <img className="h-12" src={`${import.meta.env.VITE_IMAGE_PATH_BIKE}`} alt="" />
+          <div className="ml-2 w-1/2">
+            <h4 className="font-medium text-base">Moto<span><i className="ri-user-3-fill"></i>1</span></h4>
+            <h5 className="font-medium text-sm">3 mins away</h5>
+            <p className="font-normal text-xs text-gray-600">Affordable, Motorcycle rides</p>
+          </div>
+          <h2 className="text-lg font-semibold">Rs 95</h2>
+        </div>
+
+        <div className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between">
+          <img className="h-12" src={`${import.meta.env.VITE_IMAGE_PATH_AUTO}`} alt="" />
+          <div className="ml-2 w-1/2">
+            <h4 className="font-medium text-base">Auto<span><i className="ri-user-3-fill"></i>3</span></h4>
+            <h5 className="font-medium text-sm">1 mins away</h5>
+            <p className="font-normal text-xs text-gray-600">Affordable, Auto rides</p>
+          </div>
+          <h2 className="text-lg font-semibold">Rs 130</h2>
+        </div>
+
       </div>
     </div>
   )
