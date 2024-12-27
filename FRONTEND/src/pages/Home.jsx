@@ -3,6 +3,8 @@ import {useGSAP} from "@gsap/react";
 import gsap from "gsap";
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPannel from "../components/LocationSearchPannel";
+import VehiclePannel from "../components/vehiclePannel";
+import ConfirmedRide from "../components/ConfirmedRide";
 
 
 const Home = () => {
@@ -12,6 +14,9 @@ const Home = () => {
   const [pannelOpen, setPannelOpen] = useState(false);
   const panelRef = useRef(null);
   const [vehiclePannel, setVehiclePannel] = useState(false);
+  const vehiclePannelref = useRef(null);
+  const [confirmedRidePannelOpen, setConfirmedRidePannelOpen] = useState(false)
+  const confirmedRidePannelRef = useRef(null);
 
 
   const submitHandler = (e) =>{
@@ -33,9 +38,36 @@ const Home = () => {
     }
   },[pannelOpen])
 
+  useGSAP(function(){
+    if(vehiclePannel){
+      gsap.to(vehiclePannelref.current,{
+        transform: 'translateY(0)'
+      })
+    }
+    else{
+      gsap.to(vehiclePannelref.current,{
+        transform: 'translateY(100%)'
+      })
+    }
+  },[vehiclePannel])
+
+  useGSAP(function(){
+    if(confirmedRidePannelOpen){
+      gsap.to(confirmedRidePannelRef.current,{
+        transform: 'translateY(0)'
+      })
+    }
+    else{
+      gsap.to(confirmedRidePannelRef.current,{
+        transform: 'translateY(100%)'
+      })
+    }
+  },[confirmedRidePannelOpen])
+
   return (
     <div className="h-screen relative overflow-hidden">
-      <img className='h-8 absolute left-5 top-5' src={`${import.meta.env.VITE_IMAGE_PATH}`} alt="Cab" />
+      <img className='h-8 absolute left-5 top-5' src={`/images/logon.png`} alt="Cab" />
+
       <div className="h-screen w-screen">
         {/* Image for temporary use */}
         <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
@@ -68,6 +100,7 @@ const Home = () => {
             type="text"
             placeholder="Add a pick up location"
             />
+            
             <input
             onClick={()=>{
               setPannelOpen(true);
@@ -81,45 +114,19 @@ const Home = () => {
             placeholder="Enter your destination"
             />
           </form>
+
         </div>
         <div ref={panelRef} className="h-0 bg-white">
-          <LocationSearchPannel vehiclePannel ={vehiclePannel} setVehiclePannel={setVehiclePannel}/>
+          <LocationSearchPannel setPannelOpen={setPannelOpen} setVehiclePannel={setVehiclePannel}/>
         </div>
       </div>
 
-      <div className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-8 bg-white">
-        <h3 className="text-2xl font-semibold mb-5">Choose a vehicle</h3>
+      <div ref={vehiclePannelref} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white">
+        <VehiclePannel setVehiclePannel={setVehiclePannel} setConfirmedRidePannelOpen={setConfirmedRidePannelOpen}/>
+      </div>
 
-        <div className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between">
-          <img className="h-12" src={`${import.meta.env.VITE_IMAGE_PATH_CAR}`} alt="" />
-          <div className="ml-2 w-1/2">
-            <h4 className="font-medium text-base">CabGo <span><i className="ri-user-3-fill"></i>4</span></h4>
-            <h5 className="font-medium text-sm">2 mins away</h5>
-            <p className="font-normal text-xs text-gray-600">Affordable, compact rides</p>
-          </div>
-          <h2 className="text-lg font-semibold">Rs 193</h2>
-        </div>
-
-        <div className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between">
-          <img className="h-12" src={`${import.meta.env.VITE_IMAGE_PATH_BIKE}`} alt="" />
-          <div className="ml-2 w-1/2">
-            <h4 className="font-medium text-base">Moto<span><i className="ri-user-3-fill"></i>1</span></h4>
-            <h5 className="font-medium text-sm">3 mins away</h5>
-            <p className="font-normal text-xs text-gray-600">Affordable, Motorcycle rides</p>
-          </div>
-          <h2 className="text-lg font-semibold">Rs 95</h2>
-        </div>
-
-        <div className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between">
-          <img className="h-12" src={`${import.meta.env.VITE_IMAGE_PATH_AUTO}`} alt="" />
-          <div className="ml-2 w-1/2">
-            <h4 className="font-medium text-base">Auto<span><i className="ri-user-3-fill"></i>3</span></h4>
-            <h5 className="font-medium text-sm">1 mins away</h5>
-            <p className="font-normal text-xs text-gray-600">Affordable, Auto rides</p>
-          </div>
-          <h2 className="text-lg font-semibold">Rs 130</h2>
-        </div>
-
+      <div ref={confirmedRidePannelRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-6 pt-12 bg-white">
+        <ConfirmedRide setConfirmedRidePannelOpen={setConfirmedRidePannelOpen}/>
       </div>
     </div>
   )
