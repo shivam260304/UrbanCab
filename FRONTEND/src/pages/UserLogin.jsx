@@ -35,7 +35,7 @@ const UserLogin = () => {
   return (
     <div className="p-7 h-screen flex flex-col justify-between">
       <div>
-      <img className="h-8 mb-10" src={`${import.meta.env.VITE_IMAGE_PATH}`} alt="Cab"/>
+      <img className="h-8 mb-10" src={`/images/logon.png`} alt="Cab"/>
         <form onSubmit={(e)=>{
           submitter(e);
         }}>
