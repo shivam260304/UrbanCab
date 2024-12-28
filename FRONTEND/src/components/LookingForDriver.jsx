@@ -1,19 +1,18 @@
 /* eslint-disable react/prop-types */
-const ConfirmedRide = (props) => {
-    const {setConfirmedRidePannelOpen, setVehicleFound} = props;
+const LookingForDriver = (props) => {
+    const {setVehicleFound} = props;
   return (
     <div>
       <h5
         onClick={() => {
-            setConfirmedRidePannelOpen(false);
-  
+            setVehicleFound(false);
         }}
         className="p-1 text-center w-[93%] absolute top-0"
       >
         <i className="text-3xl ri-arrow-down-wide-line"></i>
       </h5>
 
-      <h3 className="text-2xl font-semibold mb-5">Confirm your ride</h3>
+      <h3 className="text-2xl font-semibold mb-5">Looking for a Driver</h3>
 
       <div className="flex flex-col gap-2 justify-between items-center">
         <img className="h-20" src={`/images/car.png`} alt=""/>
@@ -40,14 +39,10 @@ const ConfirmedRide = (props) => {
                 </div>
             </div>
         </div>
-        <button onClick={()=>{
-          setVehicleFound(true);
-          setConfirmedRidePannelOpen(false);
-        }} className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">Confirm</button>
       </div>
 
     </div>
   )
 }
 
-export default ConfirmedRide
+export default LookingForDriver
