@@ -1,32 +1,25 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
 
-const ConfirmRidePopUp = (props) => {
+const FinishRide = (props) => {
 
-    const {setRidePopUpPannel, setConfirmRidePopUpPannel} = props;
-
-    const [otp, setOtp] = useState('');
-
-    const submitHandler = (e)=>{
-      e.preventDefault();
-      console.log("Temoporary SubmitHandler")
-    }
+    const {setFinishRidePannel} = props;
 
   return (
     <div className='h-screen'>
       <h5
         onClick={() => {
-            setRidePopUpPannel(false);
+            setFinishRidePannel(false);
         }}
         className="p-1 text-center w-[93%] absolute top-0"
       >
         <i className="text-3xl ri-arrow-down-wide-line"></i>
       </h5>
 
-      <h3 className="text-2xl font-semibold mb-5">Confirm this ride to start</h3>
+      <h3 className="text-2xl font-semibold mb-5">Finish this ride</h3>
 
-      <div className="flex items-center justify-between p-3 bg-yellow-400 rounded-lg mt-4">
+      <div className="flex items-center justify-between p-4 border-2 border-yellow-400 rounded-lg mt-4">
         <div className="flex items-center gap-3">
             <img className="h-12 rounded-full object-cover w-12" src="https://plus.unsplash.com/premium_photo-1689530775582-83b8abdb5020?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwcGVyc29ufGVufDB8fDB8fHww" alt="" />
             <h2 className="text-lg font-medium">Vijay Thalapaty</h2>
@@ -63,19 +56,9 @@ const ConfirmRidePopUp = (props) => {
         </div>
 
         <div className='mt-6 w-full'>
-          <form onSubmit={(e)=>{
-            submitHandler(e);
-          }}>
-            <input value={otp} onChange={(e)=>{
-              setOtp(e.target.value);
-            }} className='bg-[#eee] px-6 py-4 font-mono text-lg rounded-lg w-full' type="text" placeholder='Enter OTP' />
-            <Link to="/captain-riding" className="w-full flex justify-center mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">Confirm</Link>
-            <button onClick={()=>{
-              setConfirmRidePopUpPannel(false);
-              setRidePopUpPannel(false);
-            }} className="w-full mt-2 bg-red-600 text-white font-semibold p-2 rounded-lg">Cancel
-            </button>
-          </form>
+            <Link to="/captain-home" className="w-full flex justify-center mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">
+                Finish Ride
+             </Link>
         </div>
 
 
@@ -84,4 +67,4 @@ const ConfirmRidePopUp = (props) => {
   )
 }
 
-export default ConfirmRidePopUp
+export default FinishRide
