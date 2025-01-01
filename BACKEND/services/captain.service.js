@@ -29,7 +29,3 @@ module.exports.createCaptain = async ({
     });
     return captain;
 }
-
-const x = () =>{
-    console.log('hi');
-}
