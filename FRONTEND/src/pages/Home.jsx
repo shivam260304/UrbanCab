@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import {useGSAP} from "@gsap/react";
+import axios from "axios";
 import gsap from "gsap";
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPannel from "../components/LocationSearchPannel";
@@ -13,19 +14,51 @@ const Home = () => {
 
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
-
   const [pannelOpen, setPannelOpen] = useState(false);
+  const vehiclePannelref = useRef(null);
+  const confirmedRidePannelRef = useRef(null);
+  const vehicleFoundRef = useRef(null);
+  const waitingForDriverRef = useRef(null);
+  const panelRef = useRef(null);
   const [vehiclePannel, setVehiclePannel] = useState(false);
   const [confirmedRidePannelOpen, setConfirmedRidePannelOpen] = useState(false)
   const [vehicleFound, setVehicleFound] = useState(false);
   const [waitingForDriver, setWaitingForDriver] = useState(false);
 
-  const panelRef = useRef(null);
-  const vehiclePannelref = useRef(null);
-  const confirmedRidePannelRef = useRef(null);
-  const vehicleFoundRef = useRef(null);
-  const waitingForDriverRef = useRef(null);
+  const [ pickupSuggestions, setPickupSuggestions ] = useState([])
+  const [ destinationSuggestions, setDestinationSuggestions ] = useState([])
+  const [ activeField, setActiveField ] = useState(null)
 
+  const handlePickupChange = async (e) => {
+    setPickup(e.target.value)
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`, {
+            params: { input: e.target.value },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+
+        })
+        setPickupSuggestions(response.data)
+    } catch (err){
+      console.log(err);
+    }
+  }
+
+  const handleDestinationChange = async (e) => {
+    setDestination(e.target.value)
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`, {
+            params: { input: e.target.value },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        setDestinationSuggestions(response.data)
+    } catch {
+        // handle error
+    }
+}
 
   const submitHandler = (e) =>{
     e.preventDefault();
@@ -125,11 +158,10 @@ const Home = () => {
             <input
             onClick={()=>{
               setPannelOpen(true);
+              setActiveField("pickup");
             }}
             value={pickup}
-            onChange={(e)=>{
-              setPickup(e.target.value);
-            }}
+            onChange={handlePickupChange}
             className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-5"
             type="text"
             placeholder="Add a pick up location"
@@ -138,11 +170,10 @@ const Home = () => {
             <input
             onClick={()=>{
               setPannelOpen(true);
+              setActiveField("destination");
             }}
             value={destination}
-            onChange={(e)=>{
-              setDestination(e.target.value);
-            }}
+            onChange={handleDestinationChange}
             className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-5"
             type="text"
             placeholder="Enter your destination"
@@ -151,7 +182,14 @@ const Home = () => {
 
         </div>
         <div ref={panelRef} className="h-0 bg-white">
-          <LocationSearchPannel setPannelOpen={setPannelOpen} setVehiclePannel={setVehiclePannel}/>
+          <LocationSearchPannel
+            setPannelOpen={setPannelOpen}
+            setVehiclePannel={setVehiclePannel}
+            suggestions = {activeField === "pickup" ? pickupSuggestions : destinationSuggestions}
+            setPickup={setPickup}
+            setDestination={setDestination}
+            activeField={activeField}
+          />
         </div>
       </div>
 
@@ -175,4 +213,3 @@ const Home = () => {
 }
 
 export default Home
-
