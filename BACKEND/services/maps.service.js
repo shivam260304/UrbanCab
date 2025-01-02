@@ -38,6 +38,12 @@ module.exports.getDistanceTime = async (origin,destination) =>{
                 throw new Error("No route found between the given origin and destination")
             }
             return response.data.rows[0].elements[0];
+            // It will return a object in this form below -->
+            // {
+            //     distance: { text: '521 km', value: 521363 },
+            //     duration: { text: '10 hours 39 mins', value: 38322 },
+            //     status: 'OK'
+            // }
         }
         else{
             throw new Error("Unable to get distance and time between the given origin and destination")
