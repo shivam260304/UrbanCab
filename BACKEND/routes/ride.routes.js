@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {body} = require('express-validator')
+const {body, query} = require('express-validator')
 const rideController = require ('../Controllers/ride.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
 
@@ -11,6 +11,13 @@ router.post('/create',
     authMiddleware.authUser,
     rideController.createRide
     // controller need to be created tomorrow
+)
+
+router.get('/get-fare',
+    query("pickup").isString().withMessage("Invalid Pickup address"),
+    query("destination").isString().withMessage("Invalid Destination address"),
+    authMiddleware.authUser,
+    rideController.getFare
 )
 
 module.exports = router;

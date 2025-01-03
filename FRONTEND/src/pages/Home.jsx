@@ -28,16 +28,17 @@ const Home = () => {
   const [ pickupSuggestions, setPickupSuggestions ] = useState([])
   const [ destinationSuggestions, setDestinationSuggestions ] = useState([])
   const [ activeField, setActiveField ] = useState(null)
+  const [fare, setFare] = useState({});
+  const [vehicleType, setVehicleType] = useState(null);
 
   const handlePickupChange = async (e) => {
-    setPickup(e.target.value)
+    setPickup(e.target.value)  // for display in the input field
     try {
         const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`, {
             params: { input: e.target.value },
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
-
         })
         setPickupSuggestions(response.data)
     } catch (err){
@@ -46,7 +47,7 @@ const Home = () => {
   }
 
   const handleDestinationChange = async (e) => {
-    setDestination(e.target.value)
+    setDestination(e.target.value) // for display in the input field
     try {
         const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`, {
             params: { input: e.target.value },
@@ -131,6 +132,32 @@ const Home = () => {
     }
   },[waitingForDriver])
 
+  async function findTrip(){
+    setVehiclePannel(true);
+    setPannelOpen(false);
+    const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
+      {
+        params:{pickup, destination},
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      setFare(res.data);
+  }
+
+  async function createRide(){
+    const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`,
+      {
+        pickup, destination, vehicleType
+      },
+      {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      console.log(res.data);
+  }
+
   return (
     <div className="h-screen relative overflow-hidden">
       <img className='h-8 absolute left-5 top-5' src={`/images/logon.png`} alt="Cab" />
@@ -180,6 +207,10 @@ const Home = () => {
             />
           </form>
 
+          <button onClick={findTrip} className="bg-black text-white px-4 py-2 rounded-lg mt-7 w-full">
+            Find Trip
+          </button>
+
         </div>
         <div ref={panelRef} className="h-0 bg-white">
           <LocationSearchPannel
@@ -194,15 +225,35 @@ const Home = () => {
       </div>
 
       <div ref={vehiclePannelref} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white">
-        <VehiclePannel setVehiclePannel={setVehiclePannel} setConfirmedRidePannelOpen={setConfirmedRidePannelOpen}/>
+        <VehiclePannel 
+          setVehiclePannel={setVehiclePannel}
+          setConfirmedRidePannelOpen={setConfirmedRidePannelOpen}
+          fare={fare}
+          setVehicleType={setVehicleType}
+        />
       </div>
 
       <div ref={confirmedRidePannelRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-6 pt-12 bg-white">
-        <ConfirmedRide setVehicleFound={setVehicleFound} setConfirmedRidePannelOpen={setConfirmedRidePannelOpen}/>
+        <ConfirmedRide 
+          setVehicleFound={setVehicleFound}
+          setConfirmedRidePannelOpen={setConfirmedRidePannelOpen}
+          createRide={createRide}
+          pickup={pickup}
+          destination={destination}
+          fare={fare}
+          vehicleType={vehicleType}
+        />
       </div>
 
       <div ref={vehicleFoundRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-6 pt-12 bg-white">
-        <LookingForDriver setVehicleFound={setVehicleFound}/>
+        <LookingForDriver
+          setVehicleFound={setVehicleFound}
+          createRide={createRide}
+          pickup={pickup}
+          destination={destination}
+          fare={fare}
+          vehicleType={vehicleType}
+        />
       </div>
 
       <div ref={waitingForDriverRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-6 pt-12 bg-white">

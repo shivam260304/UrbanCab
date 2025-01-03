@@ -26,8 +26,8 @@ const LocationSearchPanel = ({
       {safeSuggestions.map((suggestion, index) => (
         <div
           key={index} // React requires a unique key for each child
-          onClick={() => handleSuggestionClick(suggestion)}
-          className="flex gap-4 p-3 border-2 rounded-xl active:border-black border-gray-50 items-center my-2 justify-start"
+          onClick={() => handleSuggestionClick(suggestion)} //clicking on the provided suggestion.
+          className="flex mt-3 gap-4 p-3 border-2 rounded-xl active:border-black border-gray-50 items-center my-2 justify-start"
         >
           <h2 className="bg-[#eee] h-8 flex items-center justify-center w-12 rounded-full">
             <i className="ri-map-pin-fill"></i>

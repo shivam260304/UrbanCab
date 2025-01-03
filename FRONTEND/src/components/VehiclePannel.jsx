@@ -1,5 +1,5 @@
 const vehiclePannel = (props) => {
-  const { setVehiclePannel, setConfirmedRidePannelOpen } = props;
+  const { setVehiclePannel, setConfirmedRidePannelOpen, fare, setVehicleType } = props;
   return (
     <div>
       <h5
@@ -15,6 +15,7 @@ const vehiclePannel = (props) => {
 
       <div
         onClick={() => {
+          setVehicleType("car");
           setConfirmedRidePannelOpen(true);
           setVehiclePannel(false);
         }}
@@ -37,11 +38,12 @@ const vehiclePannel = (props) => {
             Affordable, compact rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">Rs 193</h2>
+        <h2 className="text-lg font-semibold">Rs-{fare.car}</h2>
       </div>
 
       <div
         onClick={() => {
+          setVehicleType("motorcycle");
           setConfirmedRidePannelOpen(true);
           setVehiclePannel(false);
         }}
@@ -49,7 +51,7 @@ const vehiclePannel = (props) => {
       >
         <img
           className="h-12"
-          src={`/images/bike.png`}
+          src={`/images/motorcycle.png`}
           alt=""
         />
         <div className="ml-2 w-1/2">
@@ -64,11 +66,12 @@ const vehiclePannel = (props) => {
             Affordable, Motorcycle rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">Rs 95</h2>
+        <h2 className="text-lg font-semibold">Rs-{fare.motorcycle}</h2>
       </div>
 
       <div
         onClick={() => {
+          setVehicleType("auto");
           setConfirmedRidePannelOpen(true);
           setVehiclePannel(false);
         }}
@@ -91,7 +94,7 @@ const vehiclePannel = (props) => {
             Affordable, Auto rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">Rs 130</h2>
+        <h2 className="text-lg font-semibold">Rs-{fare.auto}</h2>
       </div>
 
     </div>

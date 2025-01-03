@@ -39,13 +39,15 @@ async function getFare(pickup, destination) {
     };
 
     const fare = {
-        auto: baseFare.auto + (distance / 1000 * perKmRte.auto) + (duration / 60 * perMinuteRate.auto),
-        car: baseFare.car + (distance / 1000 * perKmRte.car) + (duration / 60 * perMinuteRate.car),
-        motorcycle: baseFare.motorcycle + (distance / 1000 * perKmRte.motorcycle) + (duration / 60 * perMinuteRate.motorcycle)
+        auto: Math.round(baseFare.auto + (distance / 1000 * perKmRte.auto) + (duration / 60 * perMinuteRate.auto)),
+        car: Math.round(baseFare.car + (distance / 1000 * perKmRte.car) + (duration / 60 * perMinuteRate.car)),
+        motorcycle: Math.round(baseFare.motorcycle + (distance / 1000 * perKmRte.motorcycle) + (duration / 60 * perMinuteRate.motorcycle))
     };
 
     return fare;
 }
+
+module.exports.getFare = getFare; 
 
 function getOTP(num){
     // crypto.randomINT(min,max) below -->10^5 to 10^6, which resulst in a random 6 digit number
