@@ -17,8 +17,6 @@ const SocketProvider = ({ children }) => {
     socket.on('disconnect',()=>{
       console.log('Disconnected from Server')
     });
-
-    
   }, []);
 
   return (
