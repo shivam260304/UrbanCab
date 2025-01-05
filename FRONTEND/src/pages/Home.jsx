@@ -45,6 +45,12 @@ const Home = () => {
       });
     }
   }, [user, socket]);
+
+  socket.on('ride-confirmed', data=>{
+    console.log("Hiii");
+    setVehicleFound(false); // for looking for driver page
+    setWaitingForDriver(true);
+  })
   
 
   const handlePickupChange = async (e) => {
@@ -171,7 +177,6 @@ const Home = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       })
-      console.log(res.data);
   }
 
   return (
