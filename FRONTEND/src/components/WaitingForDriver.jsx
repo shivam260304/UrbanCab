@@ -2,7 +2,7 @@
 import React from 'react'
 
 const WaitingForDriver = (props) => {
-    const {setWaitingForDriver} = props;
+    const {setWaitingForDriver, ride} = props;
   return (
     <div>
 
@@ -18,9 +18,10 @@ const WaitingForDriver = (props) => {
       <div className='flex items-center justify-between'>
         <img className="h-12" src={`/images/car.png`} alt=""/>
         <div className='text-right'>
-            <h2 className='text-lg font-medium'>Shivam</h2>
-            <h4 className='text-xl font-semibold -mt-1 -mb-1'>GJ-01 AB 1234</h4>
+            <h2 className='text-lg font-medium capitalize'>{ride?.captain.fullname.firstname}</h2>
+            <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ride?.captain.vehicle.plate}</h4>
             <p className='text-sm text-gray-600'>Tata Nano</p>
+            <h2 className='text-lg font-semibold'>{ride?.otp}</h2>
         </div>
       </div>
 
@@ -31,20 +32,20 @@ const WaitingForDriver = (props) => {
                 <i className="ri-map-pin-user-fill"></i>
                 <div>
                     <h3 className="text-lg font-medium">562/11-A</h3>
-                    <p className="text-sm -mt-1 text-gray-600">Kanakriya Lake Ahmedabad</p>
+                    <p className="text-sm -mt-1 text-gray-600">{ride?.pickup}</p>
                 </div>
             </div>
             <div className="flex items-center gap-5 p-3 border-b-2">
                 <i className="text-lg ri-map-pin-2-fill"></i>
                 <div>
                     <h3 className="text-lg font-medium">562/11-A</h3>
-                    <p className="text-sm -mt-1 text-gray-600">Kanakriya Lake Ahmedabad</p>
+                    <p className="text-sm -mt-1 text-gray-600">{ride?.destination}</p>
                 </div>
             </div>
             <div className="flex items-center gap-5 p-3">
                 <i className="text-lg ri-currency-line"></i>
                 <div>
-                    <h3 className="text-lg font-medium">Rs 193</h3>
+                    <h3 className="text-lg font-medium">{ride?.fare}</h3>
                     <p className="text-sm -mt-1 text-gray-600">cash Cash</p>
                 </div>
             </div>

@@ -10,9 +10,12 @@ import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import { SocketContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 
 const Home = () => {
+
+  const navigate = useNavigate();
 
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
@@ -32,6 +35,7 @@ const Home = () => {
   const [ activeField, setActiveField ] = useState(null)
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
+  const [ride, setRide] = useState(null);
 
 
   const { socket } = useContext(SocketContext)
@@ -46,11 +50,16 @@ const Home = () => {
     }
   }, [user, socket]);
 
-  socket.on('ride-confirmed', data=>{
-    console.log("Hiii");
+  socket.on('ride-confirmed', ride=>{
     setVehicleFound(false); // for looking for driver page
     setWaitingForDriver(true);
+    setRide(ride);
   })
+
+  socket.on('ride-started', ride=>{
+    setWaitingForDriver(false);
+    navigate('/riding');
+  });
   
 
   const handlePickupChange = async (e) => {
@@ -278,7 +287,7 @@ const Home = () => {
       </div>
 
       <div ref={waitingForDriverRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-6 pt-12 bg-white">
-        <WaitingForDriver setWaitingForDriver={setWaitingForDriver}/>
+        <WaitingForDriver ride = {ride} setWaitingForDriver={setWaitingForDriver}/>
       </div>
     </div>
   )
