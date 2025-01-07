@@ -1,6 +1,24 @@
-import { Link} from 'react-router-dom'
+import { Link, useLocation} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import { useContext } from 'react';
+import { SocketContext } from '../context/SocketContext';
+import { UserDataContext } from '../context/UserContext';
+import LiveTracking from '../components/Livetracking';
 
 const Riding = () => {
+
+    const location = useLocation();
+    const ride = location.state?.ride;
+
+    const { socket } = useContext(SocketContext)
+    const { user } = useContext(UserDataContext)
+    const navigate = useNavigate();
+
+    socket.on('ride-ended', data=>{
+        navigate('/home');
+    })
+    
+
   return (
     <div className='h-screen'>
         <Link
@@ -10,7 +28,8 @@ const Riding = () => {
         </Link>
         {/* First Half of the screen */}
       <div className='h-1/2'>
-            <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
+            {/* <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" /> */}
+            <LiveTracking />
         </div>
 
         {/* Second half of the screen */}
@@ -18,9 +37,8 @@ const Riding = () => {
         <div className='flex items-center justify-between'>
             <img className="h-12" src={`/images/car.png`} alt=""/>
             <div className='text-right'>
-                <h2 className='text-lg font-medium'>Shivam</h2>
-                <h4 className='text-xl font-semibold -mt-1 -mb-1'>GJ-01 AB 1234</h4>
-                <p className='text-sm text-gray-600'>Tata Nano</p>
+                <h2 className='text-lg font-medium capitalize'>{`${ride?.captain.fullname.firstname} + ${ride?.captain.fullname.lastname}`}</h2>
+                <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ride?.captain.vehicle.plate}</h4>
             </div>
         </div>
 
@@ -30,14 +48,14 @@ const Riding = () => {
                     <i className="text-lg ri-map-pin-2-fill"></i>
                     <div>
                         <h3 className="text-lg font-medium">562/11-A</h3>
-                        <p className="text-sm -mt-1 text-gray-600">Kanakriya Lake Ahmedabad</p>
+                        <p className="text-sm -mt-1 text-gray-600">{ride?.destination}</p>
                     </div>
                 </div>
 
                 <div className="flex items-center gap-5 p-3">
                     <i className="text-lg ri-currency-line"></i>
                     <div>
-                        <h3 className="text-lg font-medium">Rs 193</h3>
+                        <h3 className="text-lg font-medium">{ride?.fare}</h3>
                         <p className="text-sm -mt-1 text-gray-600">cash Cash</p>
                     </div>
                 </div>

@@ -36,12 +36,6 @@ const CaptainHome = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
 
-              console.log(
-                captain._id,
-                position.coords.latitude,
-                position.coords.longitude
-              )
-
                 socket.emit('update-location-captain', {
                     captainId: captain._id,
                     location: {
@@ -53,8 +47,8 @@ const CaptainHome = () => {
         }
     }
 
+    updateLocation();
     // const locationInterval = setInterval(updateLocation,1000);
-    // updateLocation();
 
     // return () => clearInterval(locationInterval);
 

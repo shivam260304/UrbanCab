@@ -11,6 +11,8 @@ import WaitingForDriver from "../components/WaitingForDriver";
 import { SocketContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/Livetracking";
+
 
 
 const Home = () => {
@@ -58,8 +60,12 @@ const Home = () => {
 
   socket.on('ride-started', ride=>{
     setWaitingForDriver(false);
-    navigate('/riding');
+    navigate('/riding',{state:{ride}});
   });
+
+  socket.on('ride-ended', data=>{
+    navigate('/home');
+  })
   
 
   const handlePickupChange = async (e) => {
@@ -193,6 +199,7 @@ const Home = () => {
       <img className='h-8 absolute left-5 top-5' src={`/images/logon.png`} alt="Cab" />
 
       <div className="h-screen w-screen">
+        <LiveTracking/>
         {/* Image for temporary use */}
         <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
       </div>
