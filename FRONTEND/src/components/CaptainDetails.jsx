@@ -10,28 +10,16 @@ const CaptainDetails = () => {
             <h4 className="text-lg font-medium">{captain.fullname.firstname + " " + captain.fullname.lastname}</h4>
           </div>
           <div>
-            <h4 className="text-xl font-semibold">Rs 193</h4>
-            <p className="text-sm text-gray-600">Earned</p>
+            <h4 className="text-xl font-semibold">4.8⭐</h4>
           </div>
         </div>
 
-        <div className="flex p-3 mt-6 bg-gray-100 rounded-xl justify-center gap-5 items-start">
-          <div className="text-center">
-            <i className="text-3xl mb-2 font-thin ri-timer-2-line"></i>
-            <h5 className="text-lg font-medium">10.2</h5>
-            <p className="text-sm text-gray-600">Hours online</p>
-          </div>
-          <div className="text-center">
-            <i className="text-3xl mb-2 font-thin ri-speed-up-line"></i>
-            <h5 className="text-lg font-medium">10.2</h5>
-            <p className="text-sm text-gray-600">Hours online</p>
-          </div>
-          <div className="text-center">
-            <i className="text-3xl mb-2 font-thin ri-booklet-line"></i>
-            <h5 className="text-lg font-medium">10.2</h5>
-            <p className="text-sm text-gray-600">Hours online</p>
-          </div>
-        </div>
+        <div className="mt-5 p-4 border-l-4 border-blue-500 bg-blue-50 rounded-lg">
+        <p className="text-xl text-blue-700">
+          Dear Captain, please drive safely, follow traffic rules, and ensure a
+          courteous, comfortable journey for all.
+        </p>
+      </div>
     </div>
   )
 }

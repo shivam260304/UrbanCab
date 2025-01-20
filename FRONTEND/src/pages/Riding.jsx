@@ -36,7 +36,7 @@ const Riding = () => {
                 <div className='flex items-center justify-between'>
                     <img className="h-12" src={`/images/car.png`} alt=""/>
                     <div className='text-right'>
-                        <h2 className='text-lg font-medium capitalize'>{`${ride?.captain.fullname.firstname} + ${ride?.captain.fullname.lastname}`}</h2>
+                        <h2 className='text-lg font-medium capitalize'>{`${ride?.captain.fullname.firstname}  ${ride?.captain.fullname.lastname}`}</h2>
                         <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ride?.captain.vehicle.plate}</h4>
                     </div>
                 </div>
@@ -61,7 +61,9 @@ const Riding = () => {
                     </div>
                 </div>
 
-                <button className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">Make a payment</button>  
+                <p className="w-full mt-5 bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold text-center py-2 rounded-lg shadow-lg">
+                    Enjoy your ride!
+                </p>  
             </div>
         </div>
     );
