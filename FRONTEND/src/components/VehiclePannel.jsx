@@ -33,7 +33,6 @@ const vehiclePannel = (props) => {
               <i className="ri-user-3-fill"></i>4
             </span>
           </h4>
-          <h5 className="font-medium text-sm">2 mins away</h5>
           <p className="font-normal text-xs text-gray-600">
             Affordable, compact rides
           </p>
@@ -61,7 +60,6 @@ const vehiclePannel = (props) => {
               <i className="ri-user-3-fill"></i>1
             </span>
           </h4>
-          <h5 className="font-medium text-sm">3 mins away</h5>
           <p className="font-normal text-xs text-gray-600">
             Affordable, Motorcycle rides
           </p>
@@ -89,7 +87,6 @@ const vehiclePannel = (props) => {
               <i className="ri-user-3-fill"></i>3
             </span>
           </h4>
-          <h5 className="font-medium text-sm">1 mins away</h5>
           <p className="font-normal text-xs text-gray-600">
             Affordable, Auto rides
           </p>

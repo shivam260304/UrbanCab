@@ -170,8 +170,11 @@ const Home = () => {
   },[waitingForDriver])
 
   async function findTrip(){
-    setVehiclePannel(true);
     setPannelOpen(false);
+    if(pickup == destination){
+      alert('Pickup and Destination cannot be same');
+    }
+    setVehiclePannel(true);
     const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
       {
         params:{pickup, destination},
@@ -183,6 +186,9 @@ const Home = () => {
   }
 
   async function createRide(){
+    if(pickup == destination){
+      return;
+    }
     const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`,
       {
         pickup, destination, vehicleType
@@ -282,7 +288,7 @@ const Home = () => {
         />
       </div>
 
-      <div ref={vehicleFoundRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-6 pt-12 bg-white">
+      <div ref={vehicleFoundRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-6 mt-12 bg-white">
         <LookingForDriver
           setVehicleFound={setVehicleFound}
           createRide={createRide}

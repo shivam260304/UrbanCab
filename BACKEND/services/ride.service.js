@@ -7,6 +7,9 @@ async function getFare(pickup, destination) {
     if (!pickup || !destination) {
         throw new Error("Both pickup and destination are required");
     }
+    if (pickup === destination) {
+        return { auto: 0, car: 0, motorcycle: 0 }; // Return fare as 0
+    }
 
     const distanceTime = await mapService.getDistanceTime(pickup, destination);
 

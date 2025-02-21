@@ -63,7 +63,8 @@ module.exports.suggestions = async (input) =>{
     const apiKey = process.env.GOOGLE_MAPS_API;
     const encodedInput = encodeURIComponent(input);
 
-    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodedInput}&types=(cities)&language=en&key=${apiKey}`;
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodedInput}&types=geocode&language=en&key=${apiKey}`;
+
 
     try{
         const response = await axios.get(url);

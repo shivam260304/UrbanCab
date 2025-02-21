@@ -47,7 +47,6 @@ const ConfirmRidePopUp = (props) => {
             <img className="h-12 rounded-full object-cover w-12" src="https://plus.unsplash.com/premium_photo-1689530775582-83b8abdb5020?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwcGVyc29ufGVufDB8fDB8fHww" alt="" />
             <h2 className="text-lg font-medium">{`${ride?.user.fullname.firstname} ${ride?.user.fullname.lastname}`}</h2>
         </div>
-        <h2 className="text-lg font-semibold">2.2 kms</h2>
       </div>
 
       <div className="flex flex-col gap-2 justify-between items-center">
@@ -55,14 +54,14 @@ const ConfirmRidePopUp = (props) => {
             <div className="flex items-center gap-5 p-3 border-b-2">
                 <i className="ri-map-pin-user-fill"></i>
                 <div>
-                    <h3 className="text-lg font-medium">562/11-A</h3>
+                    <h3 className="text-lg font-medium">Pickup Location</h3>
                     <p className="text-sm -mt-1 text-gray-600">{ride?.pickup}</p>
                 </div>
             </div>
             <div className="flex items-center gap-5 p-3 border-b-2">
                 <i className="text-lg ri-map-pin-2-fill"></i>
                 <div>
-                    <h3 className="text-lg font-medium">562/11-A</h3>
+                    <h3 className="text-lg font-medium">Destination Location</h3>
                     <p className="text-sm -mt-1 text-gray-600">{ride?.destination}</p>
                 </div>
             </div>
@@ -70,7 +69,6 @@ const ConfirmRidePopUp = (props) => {
                 <i className="text-lg ri-currency-line"></i>
                 <div>
                     <h3 className="text-lg font-medium">{ride?.fare}</h3>
-                    <p className="text-sm -mt-1 text-gray-600">cash Cash</p>
                 </div>
             </div>
             <div className='ml-2'>
