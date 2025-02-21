@@ -10,7 +10,7 @@ import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import { SocketContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LiveTracking from "../components/Livetracking";
 
 
@@ -212,6 +212,11 @@ const Home = () => {
 
       <div className="flex flex-col justify-end absolute h-screen top-0 w-full">
         <div className="h-[30%] bg-white relative py-6 px-5">
+        <Link
+            to="/user/logout"
+            className='fixed right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full'>
+            <i className='text-lg font-medium ri-logout-box-r-line'></i>
+        </Link>
           <h5
           onClick={()=>{
             setPannelOpen(false);
