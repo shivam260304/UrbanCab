@@ -4,38 +4,52 @@ const rideModel = require('../models/ride.model');
 const {validationResult} = require('express-validator');
 const {sendMessageToSocketId} = require('../socket');
 
-module.exports.createRide = async (req,res) =>{
+module.exports.createRide = async (req, res) => {
     const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json({errors: errors.array()});
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
 
-    const {pickup, destination, vehicleType} = req.body;
+    const { pickup, destination, vehicleType } = req.body;
 
-    try{
-        const ride = await rideService.createRide({user: req.user._id, pickup,destination,vehicleType})
-        res.status(200).json({ride});
+    try {
+        const ride = await rideService.createRide({
+            user: req.user._id,
+            pickup,
+            destination,
+            vehicleType
+        });
+
+        res.status(200).json({ ride });
 
         const pickupCoordinates = await mapsService.getAddressCoordinate(pickup);
 
-        const captainInRadius = await mapsService.getcaptainsInRadius(pickupCoordinates.ltd,pickupCoordinates.lng,100);
+        // Fetch only captains within radius who match the requested vehicle type
+        const captainsInRadius = await mapsService.getcaptainsInRadius(
+            pickupCoordinates.ltd,
+            pickupCoordinates.lng,
+            100,
+            vehicleType // Pass the user's preferred vehicleType
+        );
 
-        ride.otp =""
+        ride.otp = "";
 
-        const rideWithUser = await rideModel.findOne({_id: ride._id}).populate('user');
-        
-        captainInRadius.map(captain=>{
+        const rideWithUser = await rideModel.findOne({ _id: ride._id }).populate('user');
+
+        // Send ride request ONLY to captains with the same vehicleType
+        captainsInRadius.forEach(captain => {
             sendMessageToSocketId(captain.socketId, {
                 event: 'new-ride',
-                data : rideWithUser
-            })
-        })
-    } catch(err){
+                data: rideWithUser
+            });
+        });
+
+    } catch (err) {
         console.log(err);
+        res.status(500).json({ error: "Internal server error" });
     }
+};
 
-
-}
 
 module.exports.getFare = async(req,res) =>{
     const errors = validationResult(req);

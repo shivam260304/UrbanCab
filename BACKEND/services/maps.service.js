@@ -80,17 +80,23 @@ module.exports.suggestions = async (input) =>{
 
 }
 
-module.exports.getcaptainsInRadius = async (ltd,lng,radius) =>{
-    // radius in km
-    const captains = await captainModel.find({
-        location: {
-            $geoWithin:{
-                $centerSphere: [
-                    [ltd, lng],
-                    radius / 6371
-                ]
-            }
-        }
-    })
-    return captains;
-}
+module.exports.getcaptainsInRadius = async (ltd, lng, radius, vehicleType) => {
+    try {
+        // Fetch captains within the radius who match the requested vehicleType
+        const captains = await captainModel.find({
+            location: {
+                $geoWithin: {
+                    $centerSphere: [[ltd, lng], radius / 6371]
+                }
+            },
+            'vehicle.vehicleType': vehicleType // Ensure only captains with the same vehicle type are selected
+        }).populate('vehicle.vehicleType'); // Populate vehicle type for reference
+
+        return captains;
+    } catch (error) {
+        console.error("Error fetching captains in radius:", error);
+        throw new Error("Could not fetch captains in the specified radius.");
+    }
+};
+
+
