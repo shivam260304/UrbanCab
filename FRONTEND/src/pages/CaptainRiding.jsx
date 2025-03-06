@@ -29,11 +29,11 @@ const CaptainRiding = () => {
     <div className='h-screen'>
       <div className="fixed p-6 top-0 flex items-center justify-between w-screen">
         <img className="h-8" src={`/images/logon.png`} alt="" />
-        <Link
+        {/* <Link
             to="/captain-login"
             className='fixed right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full'>
             <i className='text-lg font-medium ri-logout-box-r-line'></i>
-        </Link>
+        </Link> */}
       </div>
 
     {/* First Half of the screen */}
@@ -54,7 +54,7 @@ const CaptainRiding = () => {
       >
         <i className="text-3xl ri-arrow-up-wide-line"></i>
       </h5>
-        <h4 className='text-xl font-semibold'>4 km away</h4>
+        <h4 className='text-xl font-semibold'>Drive Safely</h4>
         <button className="w-1/2 mt-1 bg-green-600 text-white font-semibold p-2 rounded-lg">Complete Ride</button>
       </div>
 

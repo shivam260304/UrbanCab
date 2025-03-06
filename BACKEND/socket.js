@@ -43,6 +43,13 @@ function initializeSocket(server) {
        });
     })
 
+    socket.on("payment-success", ({ rideId }) => {
+      // console.log(`Payment successful for ride: ${rideId}`);
+      
+      // Notify captain that payment is completed
+      io.emit(`payment-update-${rideId}`, { paymentCompleted: true });
+  });
+
     socket.on("disconnect", () => {
       console.log("Client disconnected: " + socket.id);
     });

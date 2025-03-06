@@ -1,6 +1,7 @@
 const express = require("express");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+const authMiddleware = require('../middlewares/auth.middleware');
 
 const router = express.Router();
 
@@ -29,9 +30,9 @@ router.post("/create-order", async (req, res) => {
 });
 
 // Route to verify payment (for testing)
-router.post("/verify-payment", async (req, res) => {
+router.post("/verify-payment", authMiddleware.authUser, async (req, res) => {
     try {
-        const { order_id, payment_id, signature } = req.body;
+        const { order_id, payment_id, signature,  } = req.body;
 
         const expectedSignature = crypto
             .createHmac("sha256", process.env.KEY_SECRET)

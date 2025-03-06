@@ -1,131 +1,91 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { SocketContext } from "../context/SocketContext";
 
 const FinishRide = (props) => {
-    const navigate = useNavigate();
-    const { ride, setFinishRidePannel } = props;
-    const [paymentCompleted, setPaymentCompleted] = useState(false);
+  const navigate = useNavigate();
+  const { ride, setFinishRidePannel } = props;
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
+  const { socket } = useContext(SocketContext);
 
-    async function generateOrder() {
-        try {
-            const response = await axios.post(
-                `${import.meta.env.VITE_BASE_URL}/pay/create-order`,
-                { amount: ride?.fare} // Razorpay expects amount in paisa
-            );
+  socket.on(`payment-update-${ride._id}`, ({ paymentCompleted }) => {
+    setPaymentCompleted(paymentCompleted);
+    console.log("Payment marked as completed by user.");
+  });
 
-            const { id, amount, currency } = response.data;
-
-            if (!window.Razorpay) {
-                alert("Razorpay SDK failed to load. Please try again.");
-                return;
-            }
-
-            const options = {
-                key: import.meta.env.VITE_RAZORPAY_KEY, // Use your test key
-                amount,
-                currency,
-                order_id: id,
-                name: "UrbanCab Test Payment",
-                description: "Ride Fare Payment (Test Mode)",
-                handler: async function (response) {
-                    try {
-                        const verifyResponse = await axios.post(
-                            `${import.meta.env.VITE_BASE_URL}/pay/verify-payment`,
-                            {
-                                order_id: id,
-                                payment_id: response.razorpay_payment_id,
-                                signature: response.razorpay_signature,
-                            }
-                        );
-
-                        if (verifyResponse.data.success) {
-                            setPaymentCompleted(true);
-                        } else {
-                            alert("Payment verification failed!");
-                        }
-                    } catch (error) {
-                        console.error("Payment Verification Error:", error);
-                        alert("Error verifying payment.");
-                    }
-                },
-                prefill: {
-                    name: "Test User",
-                    email: "test@example.com",
-                    contact: "9999999999",
-                },
-                theme: {
-                    color: "#3399cc",
-                },
-            };
-
-            const razorpay = new window.Razorpay(options);
-            razorpay.open();
-        } catch (error) {
-            console.error("Order Creation Error:", error);
-            alert("Failed to create payment order.");
-        }
+  async function endRide() {
+    if (!paymentCompleted) {
+      alert("Please complete the payment before finishing the ride.");
+      return;
     }
 
-    async function endRide() {
-        if (!paymentCompleted) {
-            alert("Please complete the payment before finishing the ride.");
-            return;
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/rides/end-ride`,
+        { rideId: ride._id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
+      );
 
-        try {
-            const response = await axios.post(
-                `${import.meta.env.VITE_BASE_URL}/rides/end-ride`,
-                { rideId: ride._id },
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                }
-            );
-
-            if (response.status === 200) {
-                navigate("/captain-home");
-            }
-        } catch (error) {
-            console.error("Error ending ride:", error);
-            alert("Failed to end ride.");
-        }
+      if (response.status === 200) {
+        navigate("/captain-home");
+      }
+    } catch (error) {
+      console.error("Error ending ride:", error);
+      alert("Failed to end ride.");
     }
+  }
 
-    return (
-        <div className="h-screen">
-            <h5
-                onClick={() => {
-                    setFinishRidePannel(false);
-                }}
-                className="p-1 text-center w-[93%] absolute top-0"
-            >
-                <i className="text-3xl ri-arrow-down-wide-line"></i>
-            </h5>
+  return (
+    <div className="h-screen p-4 bg-gray-100 rounded-lg shadow-lg">
+      <h5
+        onClick={() => setFinishRidePannel(false)}
+        className="p-1 text-center w-[93%] absolute top-0 cursor-pointer"
+      >
+        <i className="text-3xl ri-arrow-down-wide-line"></i>
+      </h5>
 
-            <h3 className="text-2xl font-semibold mb-5">Finish this ride</h3>
+      <h3 className="text-2xl font-semibold mb-5 text-center">
+        Finish this ride
+      </h3>
 
-            <div className="flex flex-col gap-2 justify-between items-center">
-                <button
-                    onClick={generateOrder}
-                    className="w-full flex justify-center mt-5 bg-blue-600 text-white font-semibold p-2 rounded-lg"
-                >
-                    Generate Payment (Test Mode)
-                </button>
-
-                <div className="mt-6 w-full">
-                    <button
-                        onClick={endRide}
-                        className="w-full flex justify-center mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg"
-                    >
-                        Finish Ride
-                    </button>
-                </div>
-            </div>
+      {/* User Details */}
+      <div className="flex items-center justify-between mb-4 bg-white p-4 rounded-lg shadow-md">
+        <img
+          className="h-14 w-14 rounded-full border-2 border-gray-300"
+          src="https://plus.unsplash.com/premium_photo-1689530775582-83b8abdb5020?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwcGVyc29ufGVufDB8fDB8fHww"
+          alt="User"
+        />
+        <div className="text-right">
+          <h2 className="text-lg font-semibold capitalize text-gray-800">{`${ride?.user.fullname.firstname} ${ride?.user.fullname.lastname}`}</h2>
+          <p className="text-sm text-gray-500">
+            ⭐ {ride?.user.rating || "4.7"} (200+ rides)
+          </p>
         </div>
-    );
+      </div>
+
+      <div className="flex flex-col gap-4 justify-between items-center">
+        <button
+          onClick={() => setPaymentCompleted(true)}
+          className="w-full flex justify-center bg-blue-200 text-white font-semibold p-3 rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-all duration-200 shadow-md hover:shadow-lg active:shadow-sm"
+        >
+          Cash Payment received
+        </button>
+
+        <button
+          onClick={endRide}
+          className="w-full flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg hover:bg-green-700 transition"
+        >
+          Finish Ride
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default FinishRide;
