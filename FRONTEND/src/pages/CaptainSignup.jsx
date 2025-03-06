@@ -107,7 +107,7 @@ const CaptainSignup = () => {
                         className="bg-[#eeeeee] mb-5 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
                         required
                         type="text"
-                        placeholder="Vehicle Color"
+                        placeholder="Vehicle RC"
                     />
                     <input
                         value={vehiclePlate}
@@ -123,7 +123,7 @@ const CaptainSignup = () => {
                         className="bg-[#eeeeee] mb-5 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
                         required
                         type="number"
-                        placeholder="Vehicle Capacity"
+                        placeholder="Driving Licence"
                     />
                     <input
                         value={vehicleType}
