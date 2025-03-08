@@ -3,9 +3,7 @@
 import { Link } from "react-router-dom";
 
 const LocationSearchPanel = ({ 
-  suggestions, 
-  setVehiclePanel, 
-  setPanelOpen, 
+  suggestions,
   setPickup, 
   setDestination, 
   activeField 
@@ -19,8 +17,6 @@ const LocationSearchPanel = ({
     } else if (activeField === 'destination') {
       setDestination(suggestion.description);
     }
-    // setVehiclePanel(true);
-    // setPanelOpen(false);
   };
 
   return (

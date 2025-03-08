@@ -1,5 +1,5 @@
 const vehiclePannel = (props) => {
-  const { setVehiclePannel, setConfirmedRidePannelOpen, fare, setVehicleType } = props;
+  const { setVehiclePannel, setConfirmedRidePannelOpen, fare, setVehicleType, setVehicleFound } = props;
   return (
     <div>
       <h5
@@ -18,6 +18,7 @@ const vehiclePannel = (props) => {
           setVehicleType("car");
           setConfirmedRidePannelOpen(true);
           setVehiclePannel(false);
+          setVehicleFound(false);
         }}
         className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between"
       >
